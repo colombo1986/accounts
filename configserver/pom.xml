@@ -71,7 +71,7 @@
 					<version>3.4.1</version>
 					<configuration>
 						<to>
-							<image>cristophervergara/${project.artifactId}:s6</image>
+							<image>cristophervergara/${project.artifactId}:s8</image>
 						</to>
 					</configuration>
 				</plugin>
