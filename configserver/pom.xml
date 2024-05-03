@@ -29,15 +29,15 @@
 			<artifactId>spring-cloud-config-server</artifactId>
 		</dependency>
 
-		<dependency>
+		<!--<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-bus-amqp</artifactId>
-		</dependency>
+		</dependency> -->
 
-		<dependency>
+		<!--<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-config-monitor</artifactId>
-		</dependency>
+		</dependency>-->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -71,13 +71,11 @@
 					<version>3.4.1</version>
 					<configuration>
 						<to>
-							<image>cristophervergara/${project.artifactId}:s8</image>
+							<image>cristophervergara/${project.artifactId}:s9</image>
 						</to>
 					</configuration>
 				</plugin>
 
-
 		</plugins>
 	</build>
-
 </project>
