@@ -298,8 +298,8 @@ services:
   accounts:
     image: "eazybytes/accounts:s13"
     container_name: accounts-ms
-    ports:
-      - "8080:8080"
+    #ports:
+     # - "8080:8080"
     depends_on:
       configserver:
         condition: service_healthy
@@ -321,8 +321,8 @@ services:
   loans:
     image: "eazybytes/loans:s13"
     container_name: loans-ms
-    ports:
-      - "8090:8090"
+    #ports:
+     # - "8090:8090"
     depends_on:
       configserver:
         condition: service_healthy
@@ -344,8 +344,8 @@ services:
   cards:
     image: "eazybytes/cards:s13"
     container_name: cards-ms
-    ports:
-      - "9000:9000"
+    #ports:
+     # - "9000:9000"
     depends_on:
       configserver:
         condition: service_healthy
@@ -365,7 +365,7 @@ services:
       service: microservice-eureka-config
 
   gatewayserver:
-    image: "eazybytes/gatewayserver:s13"
+    image: "eazybytes/gatewayserver:s12"
     container_name: gatewayserver-ms
     ports:
       - "8072:8072"
@@ -379,6 +379,7 @@ services:
     environment:
       SPRING_APPLICATION_NAME: "gatewayserver"
       OTEL_SERVICE_NAME: "gatewayserver"
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: "http://keycloak:8080/realms/master/protocol/openid-connect/certs"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
