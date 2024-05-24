@@ -32,42 +32,33 @@ public class GatewayserverApplication {
 						.path("/eazybank/accounts/**")
 						.filters( f -> f.rewritePath("/eazybank/accounts/(?<segment>.*)","/${segment}")
 								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
-						.circuitBreaker(config->config.setName("accountsCircuitBreaker")
-								.setFallbackUri("forward:/contactSupport")))
+								.circuitBreaker(config -> config.setName("accountsCircuitBreaker")
+										.setFallbackUri("forward:/contactSupport")))
 						.uri("lb://ACCOUNTS"))
 				.route(p -> p
 						.path("/eazybank/loans/**")
 						.filters( f -> f.rewritePath("/eazybank/loans/(?<segment>.*)","/${segment}")
 								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
 								.retry(retryConfig -> retryConfig.setRetries(3)
-										.setBackoff(Duration.ofMillis(100), Duration.ofMillis(1000),2,true)
-										.setMethods(HttpMethod.GET))
-								.circuitBreaker(config -> config.setName("loansCircuitBreaker")
-										.setFallbackUri("forward:/contactSupport")))
+										.setMethods(HttpMethod.GET)
+										.setBackoff(Duration.ofMillis(100),Duration.ofMillis(1000),2,true)))
 						.uri("lb://LOANS"))
 				.route(p -> p
 						.path("/eazybank/cards/**")
 						.filters( f -> f.rewritePath("/eazybank/cards/(?<segment>.*)","/${segment}")
 								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
-								.circuitBreaker(config -> config.setName("cardsCircuitBreaker")
-										.setFallbackUri("forward:/contactSupport"))
 								.requestRateLimiter(config -> config.setRateLimiter(redisRateLimiter())
 										.setKeyResolver(userKeyResolver())))
-
 						.uri("lb://CARDS")).build();
-
-
 	}
 
 	@Bean
 	public Customizer<ReactiveResilience4JCircuitBreakerFactory> defaultCustomizer() {
 		return factory -> factory.configureDefault(id -> new Resilience4JConfigBuilder(id)
 				.circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
-				.timeLimiterConfig(TimeLimiterConfig.custom()
-						.timeoutDuration(Duration.ofSeconds(4)).build())
-				.build());
+				.timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(10))
+						.build()).build());
 	}
-
 
 	@Bean
 	public RedisRateLimiter redisRateLimiter() {
