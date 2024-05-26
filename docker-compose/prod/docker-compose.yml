@@ -365,7 +365,7 @@ services:
       service: microservice-eureka-config
 
   gatewayserver:
-    image: "cristophervergara/gatewayserver:s12"
+    image: "cristophervergara/gatewayserver:s13"
     container_name: gatewayserver-ms
     ports:
       - "8072:8072"
