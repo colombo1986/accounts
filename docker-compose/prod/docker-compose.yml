@@ -273,7 +273,7 @@ services:
       #service: microservice-db-config
 
   configserver:
-    image: "cristophervergara/configserver:2026"
+    image: "cristophervergara/configserver:2027"
     container_name: configserver-ms
     ports:
       - "8071:8071"
@@ -290,7 +290,7 @@ services:
       OTEL_SERVICE_NAME: "configserver"
 
   eurekaserver:
-    image: "cristophervergara/eurekaserver:2026"
+    image: "cristophervergara/eurekaserver:2027"
     container_name: eurekaserver-ms
     ports:
       - "8070:8070"
@@ -310,8 +310,20 @@ services:
       SPRING_APPLICATION_NAME: "eurekaserver"
       OTEL_SERVICE_NAME: "eurekaserver"
 
+  message:
+    image: "eazybytes/message:2027"
+    container_name: message-ms
+    depends_on:
+      rabbit:
+        condition: service_healthy
+    environment:
+      SPRING_RABBITMQ_HOST: "rabbit"
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
+
   accounts:
-    image: "cristophervergara/accounts:2026"
+    image: "cristophervergara/accounts:2027"
     container_name: accounts-ms
     ports:
       - "8080:8080"
@@ -319,6 +331,8 @@ services:
       configserver:
         condition: service_healthy
       eurekaserver:
+        condition: service_healthy
+      rabbit:
         condition: service_healthy
     healthcheck:
       test: "curl --fail --silent localhost:8080/actuator/health/readiness | grep UP || exit 1"
@@ -329,12 +343,13 @@ services:
     environment:
       SPRING_APPLICATION_NAME: "accounts"
       OTEL_SERVICE_NAME: "accounts"
+      SPRING_RABBITMQ_HOST: "rabbit"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
 
   loans:
-    image: "cristophervergara/loans:2026"
+    image: "cristophervergara/loans:2027"
     container_name: loans-ms
     ports:
       - "8090:8090"
@@ -357,7 +372,7 @@ services:
       service: microservice-eureka-config
 
   cards:
-    image: "cristophervergara/cards:2026"
+    image: "cristophervergara/cards:2027"
     container_name: cards-ms
     ports:
       - "9000:9000"
@@ -379,8 +394,9 @@ services:
       file: common-config.yml
       service: microservice-eureka-config
 
+
   gatewayserver:
-    image: "cristophervergara/gatewayserver:2026"
+    image: "cristophervergara/gatewayserver:2027"
     container_name: gatewayserver-ms
     ports:
       - "8072:8072"
