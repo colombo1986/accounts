@@ -227,38 +227,38 @@ services:
         aliases:
           - redis
 
-  accountsdb:
-    container_name: accountsdb
-    ports:
-      - 3306:3306
-    environment:
-      MYSQL_DATABASE: accountsdb
-    extends:
-      file: common-config.yml
-      service: microservice-db-config
+  #accountsdb:
+   # container_name: accountsdb
+    #ports:
+     # - 3306:3306
+    #environment:
+     # MYSQL_DATABASE: accountsdb
+    #extends:
+     # file: common-config.yml
+      #service: microservice-db-config
 
-  loansdb:
-    container_name: loansdb
-    ports:
-      - 3307:3306
-    environment:
-      MYSQL_DATABASE: loansdb
-    extends:
-      file: common-config.yml
-      service: microservice-db-config
+  #loansdb:
+   # container_name: loansdb
+    #ports:
+     # - 3307:3306
+    #environment:
+     # MYSQL_DATABASE: loansdb
+    #extends:
+     # file: common-config.yml
+      #service: microservice-db-config
 
-  cardsdb:
-    container_name: cardsdb
-    ports:
-      - 3308:3306
-    environment:
-      MYSQL_DATABASE: cardsdb
-    extends:
-      file: common-config.yml
-      service: microservice-db-config
+  #cardsdb:
+   # container_name: cardsdb
+    #ports:
+     # - 3308:3306
+    #environment:
+     # MYSQL_DATABASE: cardsdb
+    #extends:
+     # file: common-config.yml
+      #service: microservice-db-config
 
   configserver:
-    image: "cristophervergara/configserver:s13"
+    image: "cristophervergara/configserver:2026"
     container_name: configserver-ms
     ports:
       - "8071:8071"
@@ -275,7 +275,7 @@ services:
       OTEL_SERVICE_NAME: "configserver"
 
   eurekaserver:
-    image: "cristophervergara/eurekaserver:s13"
+    image: "cristophervergara/eurekaserver:2026"
     container_name: eurekaserver-ms
     ports:
       - "8070:8070"
@@ -296,10 +296,10 @@ services:
       OTEL_SERVICE_NAME: "eurekaserver"
 
   accounts:
-    image: "cristophervergara/accounts:s13"
+    image: "cristophervergara/accounts:2026"
     container_name: accounts-ms
-    #ports:
-     # - "8080:8080"
+    ports:
+      - "8080:8080"
     depends_on:
       configserver:
         condition: service_healthy
@@ -319,10 +319,10 @@ services:
       service: microservice-eureka-config
 
   loans:
-    image: "cristophervergara/loans:s13"
+    image: "cristophervergara/loans:2026"
     container_name: loans-ms
-    #ports:
-     # - "8090:8090"
+    ports:
+      - "8090:8090"
     depends_on:
       configserver:
         condition: service_healthy
@@ -342,10 +342,10 @@ services:
       service: microservice-eureka-config
 
   cards:
-    image: "cristophervergara/cards:s13"
+    image: "cristophervergara/cards:2026"
     container_name: cards-ms
-    #ports:
-     # - "9000:9000"
+    ports:
+      - "9000:9000"
     depends_on:
       configserver:
         condition: service_healthy
@@ -365,7 +365,7 @@ services:
       service: microservice-eureka-config
 
   gatewayserver:
-    image: "cristophervergara/gatewayserver:s13"
+    image: "cristophervergara/gatewayserver:2026"
     container_name: gatewayserver-ms
     ports:
       - "8072:8072"

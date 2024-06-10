@@ -103,7 +103,7 @@
 				<version>3.4.1</version>
 				<configuration>
 					<to>
-						<image>cristophervergara/${project.artifactId}:s13</image>
+						<image>cristophervergara/${project.artifactId}:2027</image>
 					</to>
 				</configuration>
 			</plugin>
