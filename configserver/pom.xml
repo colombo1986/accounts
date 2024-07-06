@@ -84,7 +84,7 @@
 					<version>3.4.1</version>
 					<configuration>
 						<to>
-							<image>cristophervergara/${project.artifactId}:2028</image>
+							<image>cristophervergara/${project.artifactId}:17</image>
 						</to>
 					</configuration>
 				</plugin>
